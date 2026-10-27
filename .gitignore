@@ -1,0 +1,26 @@
+# 运行数据与密钥材料（禁止入库）
+data/
+deploy/data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.lic
+*.pem
+*.key
+.env
+deploy/.env
+clock.dat
+
+# 构建产物
+/ulpd
+/ulp-verify
+/dist/
+*.test
+*.out
+
+# 编辑器与系统文件
+.idea/
+.vscode/
+.DS_Store
+*.swp

@@ -1,0 +1,30 @@
+services:
+  ulp:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: unified-license-platform:1.0.0
+    container_name: ulp
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      ULP_ADDR: ":7630"
+      ULP_DATA_DIR: "/data"
+      TZ: "Asia/Shanghai"
+    ports:
+      - "7630:7630"
+    volumes:
+      # SQLite 数据库 + 授权文件 + 回拨检查点；:z 供 SELinux 重新打标签。
+      - ./data:/data:z
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:7630/api/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
